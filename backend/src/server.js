@@ -66,6 +66,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 WorkZone backend running on port ${PORT}`);
-});
+async function startServer() {
+  try {
+    await initDatabase();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 WorkZone backend running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Server startup failed:", error.message);
+    process.exit(1);
+  }
+}
+
+startServer();
